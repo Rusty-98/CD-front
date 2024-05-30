@@ -12,7 +12,7 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
 
     const handleResize = () => {
         const isMd = window.matchMedia('(min-width: 768px)').matches;
-        setFontSize(isMd ? 18 : 14);
+        setFontSize(isMd ? 24 : 14);
     };
 
     useEffect(() => {

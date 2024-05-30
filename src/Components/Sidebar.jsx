@@ -9,7 +9,6 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     const [localStream, setLocalStream] = useState(null);
     const [remoteStreams, setRemoteStreams] = useState({});
     const [client, setClient] = useState(null);
-
     const appid = "264ceaa96b9d4a298a312cdac0952fe1";
     const token = null;
     const uid = useRef(sessionStorage.getItem('uid') || String(Math.floor(Math.random() * 10000)));
@@ -23,6 +22,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             await agoraClient.join(appid, roomId, token, uid.current);
 
             agoraClient.on('user-published', handleUserPublished);
+            agoraClient.on('user-unpublished', handleUserUnpublished);
             agoraClient.on('user-left', handleUserLeft);
 
             setClient(agoraClient);
@@ -39,6 +39,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             localTrackRef.current = localTrack;
 
             await client.publish([localTrack]);
+            setMic(true);
         }
     }, [client]);
 
@@ -52,6 +53,14 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             }));
             remoteAudioTrack.play();
         }
+    };
+
+    const handleUserUnpublished = (user) => {
+        setRemoteStreams(prevStreams => {
+            const newStreams = { ...prevStreams };
+            delete newStreams[user.uid];
+            return newStreams;
+        });
     };
 
     const handleUserLeft = (user) => {
@@ -126,14 +135,14 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             </div>
             <div className='h-[40%] w-full bg-gray-700 flex flex-col items-center justify-end'>
                 <div className='w-[95%] h-[200px] md:h-[100px] gap-2 md:gap-0 mb-6 flex md:flex-row flex-col items-center justify-center'>
-                    <div className='w-full md:w-[30%] md:h-[80%] flex justify-center items-center bg-black text-white font-bold tracking-wide text-3xl border border-white rounded-md md:rounded-l-lg'>
+                    <div className='w-full md:w-[30%] md:h-[80%] flex justify-center items-center bg-black text-white font-bold tracking-wide text-3xl border border-white rounded-md md:rounded-none md:rounded-l-lg'>
                         Mic
                     </div>
                     <div className='w-full md:w-[75%] md:h-[80%] flex flex-col gap-1 md:gap-0 md:flex-row items-center'>
                         <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide text-3xl ${mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-red-500 hover:bg-red-700 text-white border rounded-md md:rounded-none border-white`}>
                             Off
                         </div>
-                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide text-3xl ${!mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-green-500 hover:bg-green-700 text-white border border-white rounded-md md:rounded-r-lg`}>
+                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide text-3xl ${!mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-green-500 hover:bg-green-700 text-white border border-white md:rounded-none rounded-md md:rounded-r-lg`}>
                             On
                         </div>
                     </div>
