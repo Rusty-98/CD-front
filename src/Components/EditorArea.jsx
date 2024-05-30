@@ -7,7 +7,19 @@ import { Snippet } from '../constant';
 const EditorArea = ({ lang, socketRef, roomId }) => {
 
     const [value, setValue] = useState(Snippet[lang] || "// some comment");
+    const [fontSize, setFontSize] = useState(14);
     const editRef = useRef(null);
+
+    const handleResize = () => {
+        const isMd = window.matchMedia('(min-width: 768px)').matches;
+        setFontSize(isMd ? 18 : 14);
+    };
+
+    useEffect(() => {
+        handleResize(); // Set initial font size
+        window.addEventListener('resize', handleResize); // Add resize listener
+        return () => window.removeEventListener('resize', handleResize); // Clean up listener on unmount
+    }, []);
 
     useEffect(() => {
         if (editRef.current) {
@@ -56,7 +68,7 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
             onChange={handleChange}
             onMount={onMount}
             options={{
-                fontSize: 24,
+                fontSize: fontSize,
                 wordWrap: 'on',
                 minimap: {
                     enabled: false
