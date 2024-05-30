@@ -5,8 +5,9 @@ import ReactPlayer from 'react-player'
 
 const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
-    const [mic, setMic] = useState(true);
-    const [stream, setStream] = useState(null);
+    const [mic, setMic] = useState(false);
+    const [localStream, setLocalStream] = useState(null);
+    const [remoteStreams, setRemoteStreams] = useState({});
     const [client, setClient] = useState(null);
 
     const appid = "264ceaa96b9d4a298a312cdac0952fe1";
@@ -21,7 +22,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             const agoraClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
             await agoraClient.join(appid, roomId, token, uid.current);
 
-            agoraClient.on('user-published', handlePublish);
+            agoraClient.on('user-published', handleUserPublished);
             agoraClient.on('user-left', handleUserLeft);
 
             setClient(agoraClient);
@@ -34,29 +35,31 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
         if (client) {
             const localTrack = await AgoraRTC.createMicrophoneAudioTrack();
             localTrack.play();
-            setStream(localTrack);
+            setLocalStream(localTrack);
             localTrackRef.current = localTrack;
 
             await client.publish([localTrack]);
         }
     }, [client]);
 
-    useEffect(() => {
-        if (client) {
-            joinStream();
-        }
-    }, [client, joinStream]);
-
-    const handlePublish = async (user, mediaType) => {
+    const handleUserPublished = async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         if (mediaType === 'audio') {
             const remoteAudioTrack = user.audioTrack;
+            setRemoteStreams(prevStreams => ({
+                ...prevStreams,
+                [user.uid]: remoteAudioTrack
+            }));
             remoteAudioTrack.play();
         }
     };
 
     const handleUserLeft = (user) => {
-        console.log(`User left: ${user.uid}`);
+        setRemoteStreams(prevStreams => {
+            const newStreams = { ...prevStreams };
+            delete newStreams[user.uid];
+            return newStreams;
+        });
     };
 
     const toggleMic = async () => {
@@ -143,7 +146,10 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                 </div>
             </div>
             <div className='w-full h-12 bg-red-500 hidden overflow-hidden'>
-                {stream && <ReactPlayer url={stream} playing />}
+                {localStream && <ReactPlayer url={localStream} playing />}
+                {Object.values(remoteStreams).map((stream, index) => (
+                    <ReactPlayer key={index} url={stream} playing />
+                ))}
             </div>
         </div>
     )
