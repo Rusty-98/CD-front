@@ -143,10 +143,10 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                     Leave
                 </div>
             </div>
-            <div className='w-full h-12 bg-red-500 hidden overflow-hidden' id='container'>
+            <div id="members" className='w-full h-12 bg-red-500 hidden overflow-hidden'>
                 {localTrack && <ReactPlayer url={localTrack.play()} playing />}
                 {Object.values(remoteUsers).map((user, index) => (
-                    user.audioTrack && <ReactPlayer key={index} url={user.audioTrack.play()} playing />
+                    user.audioTrack && <ReactPlayer key={index} url={user.audioTrack} playing />
                 ))}
             </div>
         </div>
