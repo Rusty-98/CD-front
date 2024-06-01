@@ -5,87 +5,67 @@ import ReactPlayer from 'react-player'
 
 const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
-    const [mic, setMic] = useState(false);
-    const [localStream, setLocalStream] = useState(null);
-    const [remoteStreams, setRemoteStreams] = useState({});
+    const [mic, setMic] = useState(true);
     const [client, setClient] = useState(null);
+    const [localTrack, setLocalTrack] = useState(null);
+    const [remoteUsers, setRemoteUsers] = useState({});
+
     const appid = "264ceaa96b9d4a298a312cdac0952fe1";
     const token = null;
-    const uid = useRef(sessionStorage.getItem('uid') || String(Math.floor(Math.random() * 10000)));
-    const localTrackRef = useRef(null);
+    const uid = Math.floor(Math.random() * 10000);
 
-    useEffect(() => {
-        sessionStorage.setItem('uid', uid.current);
+    const initRtc = async () => {
+        const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+        setClient(client);
+        client.on('user-joined', handleUserJoined);
+        client.on('user-publish', handleUserPublish);
+        client.on('user-left', handleUserLeft);
+        await client.join(appid, roomId, token, uid);
 
-        const initClient = async () => {
-            const agoraClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-            await agoraClient.join(appid, roomId, token, uid.current);
-
-            agoraClient.on('user-published', handleUserPublished);
-            agoraClient.on('user-unpublished', handleUserUnpublished);
-            agoraClient.on('user-left', handleUserLeft);
-
-            setClient(agoraClient);
-        };
-
-        initClient();
-    }, [appid, roomId, token]);
-
-    const joinStream = useCallback(async () => {
-        if (client) {
-            const localTrack = await AgoraRTC.createMicrophoneAudioTrack();
-            localTrack.play();
-            setLocalStream(localTrack);
-            localTrackRef.current = localTrack;
-
-            await client.publish([localTrack]);
-            setMic(true);
-        }
-    }, [client]);
-
-    const handleUserPublished = async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        if (mediaType === 'audio') {
-            const remoteAudioTrack = user.audioTrack;
-            setRemoteStreams(prevStreams => ({
-                ...prevStreams,
-                [user.uid]: remoteAudioTrack
-            }));
-            remoteAudioTrack.play();
-        }
+        const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        setLocalTrack(localAudioTrack);
+        await client.publish(localAudioTrack);
     };
 
-    const handleUserUnpublished = (user) => {
-        setRemoteStreams(prevStreams => {
-            const newStreams = { ...prevStreams };
-            delete newStreams[user.uid];
-            return newStreams;
-        });
+    const handleUserJoined = (user) => {
+        setRemoteUsers((prev) => ({ ...prev, [user.uid]: user }));
+    };
+
+    const handleUserPublish = async (user, mediaType) => {
+        await client.subscribe(user, mediaType);
+        if (mediaType === 'audio') {
+            user.audioTrack.play();
+        }
     };
 
     const handleUserLeft = (user) => {
-        setRemoteStreams(prevStreams => {
-            const newStreams = { ...prevStreams };
-            delete newStreams[user.uid];
-            return newStreams;
+        setRemoteUsers((prev) => {
+            const updatedUsers = { ...prev };
+            delete updatedUsers[user.uid];
+            return updatedUsers;
         });
     };
 
     const toggleMic = async () => {
         if (mic) {
-            if (localTrackRef.current) {
-                await localTrackRef.current.setMuted(true);
-                setMic(false);
-            }
+            await localTrack.setEnabled(false);
         } else {
-            if (!localTrackRef.current) {
-                await joinStream();
-            } else {
-                await localTrackRef.current.setMuted(false);
-            }
-            setMic(true);
+            await localTrack.setEnabled(true);
+        }
+        setMic(!mic);
+    };
+
+    const quitRoom = async () => {
+        if (localTrack) {
+            localTrack.stop();
+            localTrack.close();
+        }
+        if (client) {
+            await client.unpublish();
+            await client.leave();
         }
     };
+
     const handleLanguageChange = (event) => {
         const selectedLang = event.target.value;
         setLang(selectedLang);
@@ -97,6 +77,14 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             });
         }
     };
+
+    useEffect(() => {
+        initRtc();
+
+        return () => {
+            quitRoom();
+        };
+    }, []);
 
     useEffect(() => {
         if (socketRef.current) {
@@ -118,6 +106,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
     const leaveRoom = () => {
         if (confirm("Are you sure you want to leave the room?")) {
+            quitRoom();
             window.location.href = '/';
         }
     }
@@ -154,10 +143,10 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                     Leave
                 </div>
             </div>
-            <div className='w-full h-12 bg-red-500 hidden overflow-hidden'>
-                {localStream && <ReactPlayer url={localStream} playing />}
-                {Object.values(remoteStreams).map((stream, index) => (
-                    <ReactPlayer key={index} url={stream} playing />
+            <div className='w-full h-12 bg-red-500 hidden overflow-hidden' id='container'>
+                {localTrack && <ReactPlayer url={localTrack.play()} playing />}
+                {Object.values(remoteUsers).map((user, index) => (
+                    user.audioTrack && <ReactPlayer key={index} url={user.audioTrack.play()} playing />
                 ))}
             </div>
         </div>
