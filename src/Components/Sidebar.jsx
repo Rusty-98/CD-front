@@ -1,68 +1,69 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactPlayer from 'react-player'
 
 
 const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
     const [mic, setMic] = useState(true);
-    const [client, setClient] = useState(null);
-    const [localTrack, setLocalTrack] = useState(null);
-    const [remoteUsers, setRemoteUsers] = useState({});
+    const [rtc, setRtc] = useState({
+        localAudioTrack: null,
+        client: null,
+    });
 
-    const appid = "264ceaa96b9d4a298a312cdac0952fe1";
-    const token = null;
-    const uid = Math.floor(Math.random() * 10000);
-
-    const initRtc = async () => {
-        const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-        setClient(client);
-        client.on('user-joined', handleUserJoined);
-        client.on('user-publish', handleUserPublish);
-        client.on('user-left', handleUserLeft);
-        await client.join(appid, roomId, token, uid);
-
-        const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        setLocalTrack(localAudioTrack);
-        await client.publish(localAudioTrack);
+    const options = {
+        appId: "264ceaa96b9d4a298a312cdac0952fe1",
+        channel: "test",
+        token: null,
+        uid: Math.floor(Math.random() * 10000),
     };
 
-    const handleUserJoined = (user) => {
-        setRemoteUsers((prev) => ({ ...prev, [user.uid]: user }));
-    };
+    useEffect(() => {
+        const initClient = async () => {
+            const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+            setRtc((prevRtc) => ({ ...prevRtc, client }));
 
-    const handleUserPublish = async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        if (mediaType === 'audio') {
-            user.audioTrack.play();
-        }
-    };
+            client.on("user-published", async (user, mediaType) => {
+                await client.subscribe(user, mediaType);
+                if (mediaType === "audio") {
+                    user.audioTrack.play();
+                }
+            });
 
-    const handleUserLeft = (user) => {
-        setRemoteUsers((prev) => {
-            const updatedUsers = { ...prev };
-            delete updatedUsers[user.uid];
-            return updatedUsers;
-        });
-    };
+            client.on("user-unpublished", async (user) => {
+                await client.unsubscribe(user);
+            });
+
+            await client.join(options.appId, options.channel, options.token, options.uid);
+            const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+            await client.publish([localAudioTrack]);
+            // localAudioTrack.play();
+            setRtc((prevRtc) => ({ ...prevRtc, localAudioTrack }));
+
+            console.log("publish success!");
+        };
+
+        initClient();
+
+        return () => {
+            const leave = async () => {
+                if (rtc.client) {
+                    await rtc.client.leave();
+                    rtc.localAudioTrack.close();
+                }
+            };
+            leave();
+        };
+    }, []);
 
     const toggleMic = async () => {
-        if (mic) {
-            await localTrack.setEnabled(false);
-        } else {
-            await localTrack.setEnabled(true);
-        }
-        setMic(!mic);
-    };
-
-    const quitRoom = async () => {
-        if (localTrack) {
-            localTrack.stop();
-            localTrack.close();
-        }
-        if (client) {
-            await client.unpublish();
-            await client.leave();
+        if (rtc.localAudioTrack) {
+            if (mic) {
+                await rtc.localAudioTrack.setEnabled(false);
+            } else {
+                await rtc.localAudioTrack.setEnabled(true);
+            }
+            setMic(!mic);
         }
     };
 
@@ -79,21 +80,11 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     };
 
     useEffect(() => {
-        initRtc();
-
-        return () => {
-            quitRoom();
-        };
-    }, []);
-
-    useEffect(() => {
         if (socketRef.current) {
             const handleLangChange = ({ lang }) => {
                 setLang(lang);
             };
-
             socketRef.current.on('langChange', handleLangChange);
-
             return () => {
                 socketRef.current.off('langChange', handleLangChange);
             };
@@ -102,14 +93,13 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
     const copyRoomId = () => {
         navigator.clipboard.writeText(roomId);
-    }
+    };
 
     const leaveRoom = () => {
         if (confirm("Are you sure you want to leave the room?")) {
-            quitRoom();
             window.location.href = '/';
         }
-    }
+    };
 
     return (
         <div className='w-[30%] md:w-[20%] bg-blue-800 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white'>
@@ -144,10 +134,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                 </div>
             </div>
             <div id="members" className='w-full h-12 bg-red-500 hidden overflow-hidden'>
-                {localTrack && <ReactPlayer url={localTrack.play()} playing />}
-                {Object.values(remoteUsers).map((user, index) => (
-                    user.audioTrack && <ReactPlayer key={index} url={user.audioTrack} playing />
-                ))}
+                <ReactPlayer url={rtc.localAudioTrack && rtc.localAudioTrack.play()} playing={mic} hidden />
             </div>
         </div>
     )
