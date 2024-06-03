@@ -1,6 +1,5 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import { useEffect, useState } from 'react'
-import ReactPlayer from 'react-player'
 
 
 const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
@@ -13,7 +12,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
     const options = {
         appId: "264ceaa96b9d4a298a312cdac0952fe1",
-        channel: "test",
+        channel: roomId,
         token: null,
         uid: Math.floor(Math.random() * 10000),
     };
