@@ -102,7 +102,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     };
 
     return (
-        <div className='w-[30%] md:w-[20%] bg-blue-800 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white'>
+        <div className='w-[30%] md:w-[20%] bg-gray-700 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white pb-10'>
             <div className='h-[60%] w-full bg-gray-700 p-2 flex flex-col gap-3'>
                 <h1 className='text-white font-semibold md:text-2xl'>Choose a Language:</h1>
                 <select className="font-bold md:text-2xl rounded-xl bg-black text-white px-2 py-1 hover:bg-[#242424]" name="programmingLanguages" id="programmingLanguages" onChange={handleLanguageChange} defaultValue="java" value={langu}>

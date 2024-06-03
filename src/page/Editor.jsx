@@ -4,6 +4,7 @@ import EditorArea from '../Components/EditorArea'
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { initSocket } from '../socket';
 import { useLocation, useParams } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Editor = () => {
     const location = useLocation();
@@ -20,19 +21,33 @@ const Editor = () => {
                 name: location.state?.name
             })
 
-            socketRef.current.on('otherJoinied', ({ name }) => {
+            socketRef.current.on('otherJoined', ({ name }) => {
                 console.log(name + ' joined the room');
+                toast.success(`${name} Joined the room`, {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                })
                 socketRef.current.emit('giveUsers', { roomId });
             })
 
-            socketRef.current.on('allusersInRoom', (data) => {
+            socketRef.current.on('allUsersInRoom', (data) => {
                 const userNames = data.map(user => user.name);
                 console.log(userNames);
                 setUsers(userNames);
-            })
+            });
 
             socketRef.current.on('user-disconnected', ({ name }) => {
                 console.log(name + ' left the room');
+                toast(`${name} left the room`, {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                })
                 setUsers(prevUsers => prevUsers.filter(user => user !== name));
             });
         };
@@ -57,6 +72,7 @@ const Editor = () => {
                     </div>
                 </div>
             </div>
+            <Toaster />
         </>
     )
 }

@@ -1,0 +1,11 @@
+.name {
+    background-image: linear-gradient(to right, rgba(16, 185, 129, 1), rgba(255, 255, 255, 1));
+    background-clip: text;
+    -webkit-text-stroke-color: transparent;
+    -webkit-text-stroke-width: calc(2em / 14);
+    -webkit-background-clip: text;
+    color: black;
+    text-transform: capitalize;
+    font-family: Bree;
+
+}
