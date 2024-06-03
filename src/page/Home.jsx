@@ -17,7 +17,11 @@ const Home = () => {
         { key: 5, direction: 'left', rotation: '-rotate-3' },
         { key: 6, direction: 'right', rotation: '-rotate-3' },
         { key: 7, direction: 'left', rotation: '-rotate-3' },
-        { key: 8, direction: 'right', rotation: '-rotate-3' }
+        { key: 8, direction: 'right', rotation: '-rotate-3' },
+        { key: 9, direction: 'left', rotation: '-rotate-3' },
+        { key: 10, direction: 'right', rotation: '-rotate-3' },
+        { key: 11, direction: 'left', rotation: '-rotate-3' },
+        { key: 12, direction: 'right', rotation: '-rotate-3' }
     ];
 
     const handlename = (e) => {
@@ -68,30 +72,30 @@ const Home = () => {
         <>
             <div className="w-full h-screen overflow-hidden">
                 <div className='w-full h-screen bg-transparent select-none flex items-center justify-center'>
-                    <div className='w-[90%] md:w-[50vw] h-[50vh] bg-black border-2 border-white rounded-2xl shadow-black shadow-md flex flex-col items-center justify-center'>
+                    <div className='w-[95%] md:w-[50vw] h-[40vh] md:h-[50vh] bg-black border-2 border-white rounded-2xl shadow-black shadow-md flex flex-col items-center justify-center'>
                         <div className='w-full h-full border-2 border-[#135f53] rounded-2xl flex flex-col gap-6 items-center pt-5 overflow-hidden'>
                             <input
                                 type="text"
-                                className='w-full h-24 bg-transparent text-white font-bold text-4xl tracking-wide px-5 focus:outline-0 font-lemon'
+                                className='w-full h-16 md:h-24 bg-transparent text-white font-bold text-4xl tracking-wide px-5 focus:outline-0 font-lemon'
                                 placeholder='Your Name'
                                 onChange={handlename}
                             />
                             <input
                                 type="text"
-                                className='w-full h-24 bg-transparent text-white font-bold text-4xl tracking-wide px-5 focus:outline-0 font-lemon'
+                                className='w-full h-16 md:h-24 bg-transparent text-white font-bold text-4xl tracking-wide px-5 focus:outline-0 font-lemon'
                                 placeholder='Room Id'
                                 onChange={handleroom}
                                 value={roomId}
                             />
                             <button
-                                className='w-[95%] h-20 bg-emerald-500 text-white font-bold text-4xl tracking-wide rounded-md font-lemon'
+                                className='w-[95%] h-16 md:h-20 bg-emerald-500 text-white font-bold text-4xl tracking-wide rounded-md font-lemon'
                                 onClick={handleJoin}
                             >
                                 Join
                             </button>
-                            <div className="flex items-center mt-1 mb-1">
-                                <h1 className="md:text-2xl text-white text-left">If not have Room Id Generate here: </h1>
-                                <h1 className="text-3xl text-green-400 ml-2 font-bold cursor-pointer" onClick={handleGenerate}> Room Id</h1>
+                            <div className="flex items-center mt-1 md:mb-1">
+                                <h1 className="md:text-2xl text-lg text-white text-left">If not have Room Id Generate here: </h1>
+                                <h1 className="md:text-3xl text-xl text-green-400 ml-2 font-bold cursor-pointer" onClick={handleGenerate}> Room Id</h1>
                             </div>
                         </div>
                     </div>
@@ -100,7 +104,7 @@ const Home = () => {
                     {marquees.map(marquee => (
                         <div key={marquee.key} className={marquee.rotation}>
                             <Marquee autoFill={true} pauseOnHover={marquee.direction === 'left'} speed={80} direction={marquee.direction}>
-                                <div className="name text-black mr-4 p-2 font-bold tracking-wide text-8xl opacity-[0.7]">
+                                <div className="name text-black mr-4 p-2 font-bold tracking-widest text-6xl md:text-8xl opacity-[0.7]">
                                     Code Discuss
                                 </div>
                             </Marquee>

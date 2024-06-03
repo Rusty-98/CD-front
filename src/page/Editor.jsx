@@ -64,10 +64,10 @@ const Editor = () => {
     return (
         <>
             <Navbar user={users} />
-            <div className='w-full bg-gray-900 text-green-500 pt-1 rounded-t-xl overflow-hidden'>
+            <div className='w-full bg-black text-green-500 rounded-t-xl overflow-hidden'>
                 <div className='bg-yellow-600 w-full rounded-t-xl mt-1 flex justify-between'>
                     <Sidebar setLang={setLang} socketRef={socketRef} roomId={roomId} langu={lang} />
-                    <div className='w-[70%] md:w-[80%] bg-[#1E1E1E] h-[90vh] md:h-[85vh] text-xl'>
+                    <div className='w-[70%] md:w-[80%] bg-[#1E1E1E] h-[90vh] md:h-[85vh] text-xl rounded-tr-xl overflow-hidden'>
                         <EditorArea lang={lang} socketRef={socketRef} roomId={roomId} />
                     </div>
                 </div>

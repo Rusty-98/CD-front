@@ -101,7 +101,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     };
 
     return (
-        <div className='w-[30%] md:w-[20%] bg-gray-700 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white pb-10'>
+        <div className='w-[30%] md:w-[20%] bg-gray-700 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white pb-10 rounded-tl-xl'>
             <div className='h-[60%] w-full bg-gray-700 p-2 flex flex-col gap-3'>
                 <h1 className='text-white font-semibold md:text-2xl'>Choose a Language:</h1>
                 <select className="font-bold md:text-2xl rounded-xl bg-black text-white px-2 py-1 hover:bg-[#242424]" name="programmingLanguages" id="programmingLanguages" onChange={handleLanguageChange} defaultValue="java" value={langu}>
@@ -125,10 +125,10 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                         </div>
                     </div>
                 </div>
-                <div className='w-[90%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 md:py-2 bg-cyan-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={copyRoomId}>
+                <div className='w-[95%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-cyan-500 text-white font-bold tracking-wide text-sm md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={copyRoomId}>
                     Copy RoomId
                 </div>
-                <div className='w-[90%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={leaveRoom}>
+                <div className='w-[95%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={leaveRoom}>
                     Leave
                 </div>
             </div>
