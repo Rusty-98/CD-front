@@ -134,7 +134,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                 </div>
             </div>
             <div id="members" className='w-full h-12 bg-red-500 hidden overflow-hidden'>
-                <ReactPlayer url={rtc.localAudioTrack && rtc.localAudioTrack.play()} playing={mic} hidden />
+                {/* <ReactPlayer url={rtc.localAudioTrack && rtc.localAudioTrack.play()} playing={mic} hidden /> */}
             </div>
         </div>
     )
