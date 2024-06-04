@@ -125,10 +125,10 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
                         </div>
                     </div>
                 </div>
-                <div className='w-[95%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-cyan-500 text-white font-bold tracking-wide text-sm md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={copyRoomId}>
+                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-cyan-500 text-white font-bold tracking-wide text-sm md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={copyRoomId}>
                     Copy RoomId
                 </div>
-                <div className='w-[95%] md:w-[75%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={leaveRoom}>
+                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={leaveRoom}>
                     Leave
                 </div>
             </div>
