@@ -1,5 +1,6 @@
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
 
 
 const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
@@ -92,6 +93,13 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
 
     const copyRoomId = () => {
         navigator.clipboard.writeText(roomId);
+        toast.success(`RoomId Copied`, {
+            style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+            },
+        })
     };
 
     const leaveRoom = () => {
