@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { initSocket } from '../socket';
 import { useLocation, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import Footer from '../Components/Footer';
 
 const Editor = () => {
     const location = useLocation();
@@ -63,15 +64,16 @@ const Editor = () => {
 
     return (
         <>
-            <div className='w-full bg-black text-green-500 rounded-t-xl overflow-hidden h-screen'>
+            <div className='w-full bg-black text-green-500 rounded-t-xl overflow-hidden h-[94vh]'>
                 <Navbar user={users} />
                 <div className='bg-yellow-600 w-full rounded-t-xl mt-1 flex justify-between'>
                     <Sidebar setLang={setLang} socketRef={socketRef} roomId={roomId} langu={lang} />
-                    <div className='w-[70%] md:w-[80%] bg-[#1E1E1E] h-[90vh] md:h-[85vh] text-xl rounded-tr-xl overflow-hidden'>
+                    <div className='w-[70%] md:w-[80%] bg-[#1E1E1E] h-[94vh] md:h-[85vh] text-xl rounded-tr-xl overflow-hidden'>
                         <EditorArea lang={lang} socketRef={socketRef} roomId={roomId} />
                     </div>
                 </div>
             </div>
+            <Footer />
             <Toaster />
         </>
     )

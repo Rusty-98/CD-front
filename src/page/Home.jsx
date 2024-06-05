@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import '../Components/Styles/Home.css';
 import Marquee from "react-fast-marquee";
 import toast, { Toaster } from "react-hot-toast";
+import Footer from "../Components/Footer";
 
 const Home = () => {
 
@@ -70,8 +71,8 @@ const Home = () => {
 
     return (
         <>
-            <div className="w-full h-screen overflow-hidden">
-                <div className='w-full h-screen bg-transparent select-none flex items-center justify-center'>
+            <div className="w-full h-[94vh] overflow-hidden">
+                <div className='w-full h-[94vh] bg-transparent select-none flex items-center justify-center'>
                     <div className='w-[95%] md:w-[50vw] h-[40vh] md:h-[50vh] bg-black border-2 border-white rounded-2xl shadow-black shadow-md flex flex-col items-center justify-center'>
                         <div className='w-full h-full border-2 border-[#135f53] rounded-2xl flex flex-col gap-6 items-center pt-5 overflow-hidden'>
                             <input
@@ -93,14 +94,14 @@ const Home = () => {
                             >
                                 Join
                             </button>
-                            <div className="flex items-center mt-1 md:mb-1">
+                            <div className="flex items-center text-center mt-1 md:mb-1">
                                 <h1 className="md:text-2xl text-lg text-white text-left">If not have Room Id Generate here: </h1>
                                 <h1 className="md:text-3xl text-xl text-green-400 ml-2 font-bold cursor-pointer" onClick={handleGenerate}> Room Id</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-full bg-black absolute -z-10 left-0 top-0 overflow-hidden">
+                <div className="w-full h-[94vh] bg-black absolute -z-10 left-0 top-0 overflow-hidden">
                     {marquees.map(marquee => (
                         <div key={marquee.key} className={marquee.rotation}>
                             <Marquee autoFill={true} pauseOnHover={marquee.direction === 'left'} speed={80} direction={marquee.direction}>
@@ -111,6 +112,7 @@ const Home = () => {
                         </div>
                     ))}
                 </div>
+                <Footer />
                 <Toaster />
             </div>
         </>
