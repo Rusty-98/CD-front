@@ -111,7 +111,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     return (
         <div className='w-[30%] md:w-[20%] bg-gray-700 h-[90vh] md:h-[85vh] flex flex-col items-center overflow-hidden border-r-2 border-white pb-10 rounded-tl-xl'>
             <div className='h-[60%] w-full bg-gray-700 p-2 flex flex-col gap-3'>
-                <h1 className='text-white font-semibold md:text-2xl'>Choose a Language:</h1>
+                <h1 className='text-white font-semibold md:text-2xl'>Language:</h1>
                 <select className="font-bold md:text-2xl rounded-xl bg-black text-white px-2 py-1 hover:bg-[#242424]" name="programmingLanguages" id="programmingLanguages" onChange={handleLanguageChange} defaultValue="java" value={langu}>
                     <option value="java">Java</option>
                     <option value="cpp">Cpp</option>
@@ -121,22 +121,22 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             </div>
             <div className='h-[40%] w-full bg-gray-700 flex flex-col items-center justify-end'>
                 <div className='w-[95%] h-[200px] md:h-[100px] gap-2 md:gap-0 mb-6 flex md:flex-row flex-col items-center justify-center'>
-                    <div className='w-full md:w-[30%] md:h-[80%] flex justify-center items-center bg-black text-white font-bold tracking-wide text-3xl border border-white rounded-md md:rounded-none md:rounded-l-lg'>
+                    <div className='w-full md:w-[30%] md:h-[80%] flex justify-center items-center bg-black text-white font-bold tracking-wide text-3xl border border-white rounded-md md:rounded-none md:rounded-l-lg select-none'>
                         Mic
                     </div>
                     <div className='w-full md:w-[75%] md:h-[80%] flex flex-col gap-1 md:gap-0 md:flex-row items-center'>
-                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide text-3xl ${mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-red-500 hover:bg-red-700 text-white border rounded-md md:rounded-none border-white`}>
+                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide select-none text-3xl ${mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-red-500 hover:bg-red-700 text-white border rounded-md md:rounded-none border-white`}>
                             Off
                         </div>
-                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide text-3xl ${!mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-green-500 hover:bg-green-700 text-white border border-white md:rounded-none rounded-md md:rounded-r-lg`}>
+                        <div onClick={toggleMic} className={`w-full md:w-[50%] h-full flex items-center justify-center font-bold tracking-wide select-none text-3xl ${!mic ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} bg-green-500 hover:bg-green-700 text-white border border-white md:rounded-none rounded-md md:rounded-r-lg`}>
                             On
                         </div>
                     </div>
                 </div>
-                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-cyan-500 text-white font-bold tracking-wide text-sm md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={copyRoomId}>
+                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-cyan-500 text-white font-bold tracking-wide text-sm md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer select-none' onClick={copyRoomId}>
                     Copy RoomId
                 </div>
-                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-3 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer' onClick={leaveRoom}>
+                <div className='w-[95%] md:w-[80%] text-center rounded-lg md:rounded-3xl mb-5 md:px-10 py-2 bg-red-500 text-white font-bold tracking-wide md:text-2xl border-2 border-white hover:border-green-600 cursor-pointer select-none' onClick={leaveRoom}>
                     Leave
                 </div>
             </div>

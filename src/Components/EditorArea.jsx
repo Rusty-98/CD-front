@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Snippet } from '../constant';
 
-
-
 const EditorArea = ({ lang, socketRef, roomId }) => {
-
     const [value, setValue] = useState(Snippet[lang] || "// some comment");
     const [fontSize, setFontSize] = useState(14);
     const editRef = useRef(null);
@@ -16,24 +13,25 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
     };
 
     useEffect(() => {
-        handleResize(); // Set initial font size
-        window.addEventListener('resize', handleResize); // Add resize listener
-        return () => window.removeEventListener('resize', handleResize); // Clean up listener on unmount
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     useEffect(() => {
         if (editRef.current) {
             const newValue = Snippet[lang] || "// some comment";
-            editRef.current.setValue(newValue); // Update editor content
-            setValue(newValue); // Update state
+            editRef.current.setValue(newValue);
+            setValue(newValue);
         }
     }, [lang]);
-    const onMount = ((editor) => {
+
+    const onMount = editor => {
         editRef.current = editor;
         editor.focus();
-    });
+    };
 
-    const handleChange = (newValue) => {
+    const handleChange = newValue => {
         setValue(newValue);
         if (socketRef.current) {
             socketRef.current.emit('codeChange', {
@@ -46,15 +44,32 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
     useEffect(() => {
         if (socketRef.current) {
             const handleCodeChange = ({ value: newValue }) => {
-                // console.log(newValue)
                 setValue(newValue);
             };
 
             socketRef.current.on('codeChange', handleCodeChange);
 
-            // Clean up the event listener when the component unmounts or socketRef changes
+            socketRef.current.emit('requestInitialCode', roomId); // Request initial code from server
+
             return () => {
                 socketRef.current.off('codeChange', handleCodeChange);
+            };
+        }
+    }, [socketRef.current, roomId]);
+
+    useEffect(() => {
+        if (socketRef.current) {
+            const handleInitialCode = ({ value: initialValue }) => {
+                setValue(initialValue);
+                if (editRef.current) {
+                    editRef.current.setValue(initialValue);
+                }
+            };
+
+            socketRef.current.on('initialCode', handleInitialCode);
+
+            return () => {
+                socketRef.current.off('initialCode', handleInitialCode);
             };
         }
     }, [socketRef.current]);
@@ -70,12 +85,10 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
             options={{
                 fontSize: fontSize,
                 wordWrap: 'on',
-                minimap: {
-                    enabled: false
-                }
+                minimap: { enabled: false }
             }}
         />
-    )
-}
+    );
+};
 
-export default EditorArea
+export default EditorArea;
