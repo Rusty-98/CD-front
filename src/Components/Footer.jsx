@@ -11,11 +11,11 @@ const Footer = () => {
 
 
     return (
-        <div className='w-full h-14 px-4 bg-black text-white flex items-center justify-between absolute bottom-0 left-0 z-20 border-2 border-x-0 border-b-0 border-t-white rounded-t-lg'>
+        <div className='w-full h-[45px] md:h-[55px] px-4 bg-black text-white flex items-center justify-between absolute bottom-0 left-0 z-20 border-2 border-x-0 border-b-0 border-t-white rounded-t-lg'>
             <div className='font-bold tracking-wide text-3xl select-none'>
                 Rusty
             </div>
-            <div className='flex items-center font-bold text-4xl gap-2'>
+            <div className='flex items-center font-bold text-4xl md:text-5xl gap-2'>
                 <IoLogoInstagram className='cursor-pointer' onClick={() => handleclick(insta)} />
                 <IoLogoLinkedin className='cursor-pointer' onClick={() => handleclick(linkedin)}/>
             </div>

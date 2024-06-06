@@ -8,7 +8,7 @@ const Navbar = ({ user }) => {  // Destructure user here
     };
 
     return (
-        <div className='w-full h-[70px] md:h-24 bg-gray-700 rounded-b-xl px-1 md:px-4 flex items-center justify-between'>
+        <div className='w-full h-[70px] md:h-[90px] bg-gray-700 rounded-b-xl px-1 md:px-4 flex items-center justify-between absolute top-0 left-0 z-20'>
             <div className='bg-black text-white flex items-center justify-center border-2 border-white rounded-xl px-6 py-2 font-bold tracking-wide md:text-3xl cursor-pointer'>
                 Code Discuss
             </div>

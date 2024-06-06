@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { initSocket } from '../socket';
 import { useLocation, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import Footer from '../Components/Footer';
+import '../Components/Styles/Editor.css'
 
 const Editor = () => {
     const location = useLocation();
@@ -64,16 +64,15 @@ const Editor = () => {
 
     return (
         <>
-            <div className='w-full bg-black text-green-500 rounded-t-xl overflow-hidden h-[94vh]'>
+            <div className='w-full pt-[70px] md:pt-[90px] bg-black text-green-500 rounded-t-xl overflow-hidden editor'>
                 <Navbar user={users} />
-                <div className='bg-yellow-600 w-full rounded-t-xl mt-1 flex justify-between'>
+                <div className='h-full pb-[45px] md:pb-[55px] overflow-hidden bg-yellow-600 w-full rounded-t-xl mt-1 flex justify-between'>
                     <Sidebar setLang={setLang} socketRef={socketRef} roomId={roomId} langu={lang} />
-                    <div className='w-[70%] md:w-[80%] bg-[#1E1E1E] h-[94vh] md:h-[85vh] text-xl rounded-tr-xl overflow-hidden'>
+                    <div className='w-[70%] md:w-[80%] bg-[#f18181] text-xl rounded-tr-xl overflow-hidden h-full'>
                         <EditorArea lang={lang} socketRef={socketRef} roomId={roomId} />
                     </div>
                 </div>
             </div>
-            <Footer />
             <Toaster />
         </>
     )

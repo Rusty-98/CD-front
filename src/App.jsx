@@ -13,6 +13,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/editor/:roomId' element={<Editor />} />
         </Routes>
+        <Footer />
       </Router>
     </>
   );
