@@ -31,17 +31,16 @@ const Editor = () => {
                         color: '#fff',
                     },
                 })
-                socketRef.current.emit('giveUsers', { roomId });
             })
 
             socketRef.current.on('allUsersInRoom', (data) => {
                 const userNames = data.map(user => user.name);
-                console.log(userNames);
+                // console.log(userNames);
                 setUsers(userNames);
             });
 
             socketRef.current.on('user-disconnected', ({ name }) => {
-                console.log(name + ' left the room');
+                // console.log(name + ' left the room');`
                 toast(`${name} left the room`, {
                     style: {
                         borderRadius: '10px',
@@ -61,6 +60,17 @@ const Editor = () => {
             }
         };
     }, [location.state?.name, roomId]);
+
+    useCallback(() => {
+        if (socketRef.current) {
+            socketRef.current.emit('giveUsers', { roomId });
+        }
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+            }
+        };
+    }, [roomId])
 
     return (
         <>

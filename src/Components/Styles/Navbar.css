@@ -10,3 +10,25 @@
 .nameLogo:hover .title{
     opacity: 1;
 }
+
+.open{
+    height: fit-content;
+    width: 40vw;
+    row-gap: 1rem;
+    opacity: 1;
+    color: aliceblue;
+    transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.7s;
+}
+
+.close{
+    height: 0;
+    border: 0;
+    width: 0;
+    opacity: 0;
+    transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.7s;
+}
+
+.NameClose{
+    display: none;
+    opacity: 0;
+}

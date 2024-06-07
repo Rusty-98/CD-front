@@ -49,8 +49,6 @@ const EditorArea = ({ lang, socketRef, roomId }) => {
 
             socketRef.current.on('codeChange', handleCodeChange);
 
-            socketRef.current.emit('requestInitialCode', roomId); // Request initial code from server
-
             return () => {
                 socketRef.current.off('codeChange', handleCodeChange);
             };

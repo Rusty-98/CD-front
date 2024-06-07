@@ -67,6 +67,8 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
         }
     };
 
+    // ye to jo sidebar me language selection hai wo ho gaya mean ye to emit ker raha
+
     const handleLanguageChange = (event) => {
         const selectedLang = event.target.value;
         setLang(selectedLang);
@@ -78,11 +80,14 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             });
         }
     };
+     
 
+    // ye receive karega for changement of language selection
+    
     useEffect(() => {
         if (socketRef.current) {
-            const handleLangChange = ({ lang }) => {
-                setLang(lang);
+            const handleLangChange = (data) => {
+                setLang(data);
             };
             socketRef.current.on('langChange', handleLangChange);
             return () => {
@@ -90,6 +95,9 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
             };
         }
     }, [socketRef.current]);
+
+
+    // ye room id copy kerne ke liye ho gaya
 
     const copyRoomId = () => {
         navigator.clipboard.writeText(roomId);
@@ -102,6 +110,8 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
         })
     };
 
+    //ye room ko leave kerne ke liye ho gaya
+
     const leaveRoom = () => {
         if (confirm("Are you sure you want to leave the room?")) {
             window.location.href = '/';
@@ -109,7 +119,7 @@ const Sidebar = ({ setLang, socketRef, roomId, langu }) => {
     };
 
     return (
-        <div className='w-[30%] md:w-[20%] bg-gray-700 h-full flex flex-col items-center overflow-hidden border-r-2 border-white rounded-tl-xl'>
+        <div className='w-[30%] md:w-[20%] bg-gray-700 h-full flex flex-col items-center overflow-hidden border-r-2 border-white rounded-tl-xl select-none'>
             <div className='h-[60%] w-full bg-gray-700 p-2 flex flex-col gap-3'>
                 <h1 className='text-white font-semibold md:text-2xl'>Language:</h1>
                 <select className="font-bold md:text-2xl rounded-xl bg-black text-white px-2 py-1 hover:bg-[#242424]" name="programmingLanguages" id="programmingLanguages" onChange={handleLanguageChange} defaultValue="java" value={langu}>
