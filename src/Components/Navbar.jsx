@@ -32,7 +32,7 @@ const Navbar = ({ user }) => {
             </div>
             <div className='w-[50%] flex flex-col items-end md:hidden md:items-center gap-2 justify-end'>
                 <div className={`bg-black text-xl font-bold tracking-wider py-1 px-2 rounded-md text-white`} onClick={handleOpen}>
-                    Users ⮛
+                    Users &#11163;
                 </div>
                 <div className={`bg-[#ffffff3b] backdrop-blur-lg border-2 border-white absolute flex flex-wrap justify-start items-start top-[57px] right-1 p-2 rounded-md text-white ${open ? 'open' : 'close'}`}>
                     {
