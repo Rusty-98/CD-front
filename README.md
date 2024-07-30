@@ -39,3 +39,25 @@ Follow these steps to set up the project locally:
 
    ```bash
    git clone https://github.com/yourusername/codediscuss.git
+2. **Navigate to the project directory:**
+
+   ```bash
+   cd codediscuss
+3. **Install backend dependencies:**
+
+   ```bash
+   cd server
+   npm install
+
+4. **Install frontend dependencies:**
+   
+   ```bash
+   cd ../client
+   npm install
+
+5. **Set up environment variables:**
+
+Create a .env file in the server directory and add the following:
+
+   ```bash
+   MONGO_URI=your_mongodb_uri
