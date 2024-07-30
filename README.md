@@ -1,8 +1,41 @@
-# React + Vite
+# Code Discuss
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Code Discuss Logo](https://yourlogoimageurl.com/logo.png)](https://cd-front-xi.vercel.app/)
 
-Currently, two official plugins are available:
+**Code Discuss** is a platform for real-time collaborative code editing with integrated voice chat features. It supports multiple programming languages, enabling seamless discussions and collaboration on code in a modern, responsive environment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Features
+
+- 🔄 **Real-time Collaborative Editing**: Work on code together in real-time.
+- 🎙️ **Voice Chat**: Communicate with collaborators via voice chat.
+- 🌐 **Multi-language Support**: Discuss and edit code in various programming languages.
+- 🎨 **Syntax Highlighting**: Improved code readability with syntax highlighting.
+- 🔒 **User Authentication**: Secure user registration and login.
+- 📱 **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Technologies Used
+
+- **Frontend**: React, TailwindCSS
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Real-time Communication**: Socket.io
+- **Voice Chat**: WebRTC
+
+## Installation
+
+Follow these steps to set up the project locally:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/codediscuss.git
