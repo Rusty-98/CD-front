@@ -1,6 +1,6 @@
 # Code Discuss
 
-[![Code Discuss Logo](https://yourlogoimageurl.com/logo.png)](https://cd-front-xi.vercel.app/)
+[![Code Discuss Logo](https://cd-front-xi.vercel.app/favicon.ico)](https://cd-front-xi.vercel.app/)
 
 **Code Discuss** is a platform for real-time collaborative code editing with integrated voice chat features. It supports multiple programming languages, enabling seamless discussions and collaboration on code in a modern, responsive environment.
 
